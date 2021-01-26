@@ -64,7 +64,7 @@ class ThreadController extends Controller
             'title'=>request('title'),
             'body'=>request('body')
         ]);
-        return redirect($thread->path());
+        return redirect($thread->path())->with('flash',' your thread has been published');
     }
 
     /**
@@ -109,9 +109,27 @@ class ThreadController extends Controller
      * @param  \App\Thread  $thread
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Thread $thread)
-    {
+    public function destroy($channelId,Thread $thread)
+    {    
+
+        if($thread->user_id !=auth()->id()){
+            if(request()->wantsJson()){
+                return response(['status'=>'you do not have permission to delete this thread'],403);
+            }
+
+            
+        return redirect('/login');
+        }
         //
+        $thread->delete();
+        if(request()->wantsJson()){
+         return response([],204);
+         $thread->replies()->delete();
+        }
+        
+        return redirect('/threads');
+        
+
     }
     public function __construct(){
         $this->middleware('auth')->except(['index','show']);

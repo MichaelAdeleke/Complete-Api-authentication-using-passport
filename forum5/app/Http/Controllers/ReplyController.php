@@ -50,7 +50,7 @@ class ReplyController extends Controller
 
         ]);
 
-        return back();
+        return back()->with('flash', ' Your reply has been successfully updated ');
     }
 
     /**
@@ -82,9 +82,15 @@ class ReplyController extends Controller
      * @param  \App\Reply  $reply
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Reply $reply)
+    public function update(request $request, Reply $reply)
     {
         //
+        $this->authorize('update',$reply);
+        $reply=Reply::find($request->id);
+        $reply->body=$request->body;
+        $reply->save();
+        return back()->with('Flash', 'your reply has been successfully updated');
+
     }
 
     /**
@@ -96,6 +102,15 @@ class ReplyController extends Controller
     public function destroy(Reply $reply)
     {
         //
+
+        if($reply->user_id != auth()->id()){
+
+            return response([],403);
+
+        }
+        $reply->delete();
+
+        return back()->with('flash', ' your comment has been deleted');
     }
     public function __construct(){
         $this->middleware('auth');

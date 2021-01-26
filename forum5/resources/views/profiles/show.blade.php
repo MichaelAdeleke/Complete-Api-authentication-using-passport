@@ -6,28 +6,31 @@
 
 </style>
 <div class="card">
-    <div class="card-header">
-       <h1 class="flex">
+   <div class="card-header">
+      <h1 class="flex">
           {{$profileUser->name}}
           <small>last seen {{$profileUser->created_at->diffForHumans()}}</small>
-       </h1>
-    </div>
-    @foreach($thread as $threads)
-    <div class="row justify-content-center">
-       <div class="col-md-8 col-md-offset-2">
+      </h1>
+   </div>
+</div> 
+@foreach($thread as $threads)
+ <div class="card">
+      <div class="row justify-content-center">
+         <div class="col-md-8 col-md-offset-2">
             <div class="card"style="margin-bottom:30px">
-                <div class="card-header" style="margin-bottom:30px;">
-                <a href="#">{{$threads->creator->name}}</a> Posted:
-                    {{$threads->title}}
-                    <span class="flex">{{$threads->created_at->diffForHumans()}}</span>
+               <div class="card-header" style="margin-bottom:30px;">
+                     <a href="#">{{$threads->creator->name}}</a> Posted:
+                      {{$threads->title}}
+                     <span class="flex">{{$threads->created_at->diffForHumans()}}</span>
                 </div>
                 <div class="card-body">
-                      {{$threads->body}}
-                 </div>
-                </div>
-           </div>
-       </div>
-    @endforeach
-  <span> {{$thread->links()}}</span>
+                     {{$threads->body}}
+               </div>
+            </div>
+         </div>
+     </div>
+   </div>
+@endforeach
+<span> {{$thread->links()}}</span>
 </div>
 @endsection
