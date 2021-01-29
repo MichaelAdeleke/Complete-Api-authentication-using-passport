@@ -24,6 +24,7 @@ Vue.component('reply', require('./components/Reply.vue').default);
 Vue.component('favorite',require('./components/Favorite.vue'));
 Vue.component('subscribe',require('./components/Subscribe.vue').default);
 Vue.component('user-notifications',require('./components/UserNotifications.vue').default);
+Vue.component('images',require('./components/Image.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

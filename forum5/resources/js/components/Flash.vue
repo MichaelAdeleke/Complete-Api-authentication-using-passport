@@ -7,10 +7,11 @@
 import Subscribe from './Subscribe';
 import Reply from './Reply';
 import UserNotifications from './UserNotifications';
+import Image from './Image';
 
    export default {  
     props:['message'],
-    components:{Reply,Subscribe,UserNotifications},
+    components:{Reply,Subscribe,UserNotifications,Image},
     data(){
         return{
             body:'',

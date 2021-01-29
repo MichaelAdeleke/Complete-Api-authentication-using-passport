@@ -16,10 +16,11 @@
 </style>
 <div class="container">
     <div class="row justify-content-center">
-       <div class="col-md-8 " id="postexpand">
+       <div class="col-md-9 " id="postexpand">
             <div class="card">
               <div class="level" style="margin-bottom:30px;">
                   <div class="card-header">
+                  <img src="{{asset(Auth::user()->avatar)}}" style="height:60px; width:60px; border-radius:50%"/> &nbsp;
                    <a href="/profiles/{{$thread->creator->name}}">{{$thread->creator->name}}</a> Posted:
                        {{$thread->title}}
                       <span class="flex">
@@ -50,27 +51,34 @@
         @foreach($thread->replies as $reply)
           
             <div class="card">
-             <div class="card-header level" style="height:120px;">  
-             <a href="/profiles/{{$reply->owner->name}}" class="nav-link">{{$reply->owner->name}} said
+             <div class="card-header level" style="height:120px;">
+             <a href="/profiles/{{$reply->owner->name}}" class="nav-link">
+             <img src="{{asset(Auth::user()->avatar)}}" style="height:60px; width:60px; border-radius:50%"/>&nbsp;
+             {{$reply->owner->name}} said
               {{$reply->created_at->diffForHumans()}}....
               </a>
+              
               <form method="POST"  action="/replies/{{$reply->id}}/favorites" id="formlike" >
               {{ csrf_field() }}
               <div class="form-group">
+              <div class="level">
                <subscribe :active="{{json_encode($thread->isSubscribedTo)}}"></subscribe>
                 <button type="submit" class="btn btn-link" id="like">Like</button>
-                <a href="#" class="nav-link"> 
+                
                   {{$reply->favorites()->count()}} 
                   {{Str::plural('Like', $reply->favorites()->count())}}
-                </a>
+                  
+                </div>
               </div>
              </form>
-          </div>
+             </div>
+          
               
               <div class="card-body">
                <div class="body">{{$reply->body}}</div>
               </div>
-          <div class="card-footer">
+            
+            <div class="card-footer">
             
               <form method="POST" action="/replies/{{$reply->id}}">
                  {{ csrf_field() }}
@@ -78,6 +86,7 @@
                 <button type="submit" class="btn btn-link">Delete</button>
               </form>
               <reply>
+            </div>
             </div>
           </div>
         @endforeach

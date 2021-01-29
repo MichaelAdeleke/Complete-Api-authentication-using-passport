@@ -33,7 +33,10 @@ Route::delete('/threads/{channel}/{thread}/subscriptions','ThreadSubscriptionsCo
 Route::delete('/profiles/{user}/notifications/{notification}','UserNotificationsController@destroy');
 Route::get('/profiles/{user}/notifications','UserNotificationsController@index');
 Route::post('api/users/{user}/avatar','Api\UserAvatarController@store');
+Route::post('/upload','ImageController@store');
+Route::get('/upload','ImageController@image');
+
 
 Auth::routes();
 
-Route::get('/home','ThreadController@index')->name('home');
+Route::get('/home','HomeController@index')->name('home');
