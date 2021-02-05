@@ -26,6 +26,7 @@
                     </ul>
                 </li>
             </div>
+        
             <!-- End Side Menu -->
         </nav>
         <!-- End Navigation -->
@@ -77,80 +78,42 @@
                                     <th>Remove</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="thumbnail-img">
-                                        <a href="#">
-									<img class="img-fluid" src="{{asset('images/img-pro-01.jpg')}}" alt="" />
-								</a>
-                                    </td>
-                                    <td class="name-pr">
-                                        <a href="#">
-									Lorem ipsum dolor sit amet
-								</a>
-                                    </td>
-                                    <td class="price-pr">
-                                        <p>$ 80.0</p>
-                                    </td>
-                                    <td class="quantity-box"><input type="number" size="4" value="1" min="0" step="1" class="c-input-text qty text"></td>
-                                    <td class="total-pr">
-                                        <p>$ 80.0</p>
-                                    </td>
-                                    <td class="remove-pr">
-                                        <a href="#">
-									<i class="fas fa-times"></i>
-								</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="thumbnail-img">
-                                        <a href="#">
-									<img class="img-fluid" src="{{asset('images/img-pro-02.jpg')}}" alt="" />
-								</a>
-                                    </td>
-                                    <td class="name-pr">
-                                        <a href="#">
-									Lorem ipsum dolor sit amet
-								</a>
-                                    </td>
-                                    <td class="price-pr">
-                                        <p>$ 60.0</p>
-                                    </td>
-                                    <td class="quantity-box"><input type="number" size="4" value="1" min="0" step="1" class="c-input-text qty text"></td>
-                                    <td class="total-pr">
-                                        <p>$ 80.0</p>
-                                    </td>
-                                    <td class="remove-pr">
-                                        <a href="#">
-									<i class="fas fa-times"></i>
-								</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="thumbnail-img">
-                                        <a href="#">
-									<img class="img-fluid" src="{{asset('images/img-pro-03.jpg')}}" alt="" />
-								</a>
-                                    </td>
-                                    <td class="name-pr">
-                                        <a href="#">
-									Lorem ipsum dolor sit amet
-								</a>
-                                    </td>
-                                    <td class="price-pr">
-                                        <p>$ 30.0</p>
-                                    </td>
-                                    <td class="quantity-box"><input type="number" size="4" value="1" min="0" step="1" class="c-input-text qty text"></td>
-                                    <td class="total-pr">
-                                        <p>$ 80.0</p>
-                                    </td>
-                                    <td class="remove-pr">
-                                        <a href="#">
-									<i class="fas fa-times"></i>
-								</a>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            @foreach(Cart::content() as $item )
+                                <tbody>
+                                    <tr>
+                                            <td class="thumbnail-img">
+                                                    <a href="#">
+                                                <img class="img-fluid" src="{{asset('images/')}}/{{$item->model->image}}" alt="" />
+                                               </a>
+                                                </td>
+                                                <td class="name-pr">
+                                                    <a href="#">
+                                                    {{$item->model->name}}
+                                                    </a>
+                                                </td>
+                                                <td class="price-pr">
+                                                  <p>${{$item->model->regular_price}}</p>
+                                                </td>
+                                                <td class="Quantity-box"><input type="text" data-max="120" value="{{$item->qty}}"pattern="*[0-9]" >
+                                                <a class="btn btn-increase" wire:click.prevent="increaseQuantity('{{$item->rowId}}')">+</a>
+                                                <button class="btn btn-decrease" wire:click.prevent="decreaseQuantity('{{$item->rowId}}')">-</a>
+                                                </td>
+                                                
+                                                <td class="total-pr">
+                                                   <p>${{Cart::subtotal()}}<p>
+                                                </td>
+                                                <td class="remove-pr">
+                                                    <a href="#" wire:click.prevent="destroy('{{$item->rowId}}')">
+                                                <i class="fas fa-times"></i>
+                                                </a>
+                                   
+                                             
+                                            </td>
+                                        </tr>
+                                    </tr>
+                                </tbody>
+                             @endforeach
+                           
                         </table>
                     </div>
                 </div>
@@ -181,29 +144,21 @@
                         <h3>Order summary</h3>
                         <div class="d-flex">
                             <h4>Sub Total</h4>
-                            <div class="ml-auto font-weight-bold"> $ 130 </div>
+                            <div class="ml-auto font-weight-bold"> ${{Cart::subtotal()}} </div>
                         </div>
-                        <div class="d-flex">
-                            <h4>Discount</h4>
-                            <div class="ml-auto font-weight-bold"> $ 40 </div>
-                        </div>
-                        <hr class="my-1">
-                        <div class="d-flex">
-                            <h4>Coupon Discount</h4>
-                            <div class="ml-auto font-weight-bold"> $ 10 </div>
-                        </div>
+                        
                         <div class="d-flex">
                             <h4>Tax</h4>
-                            <div class="ml-auto font-weight-bold"> $ 2 </div>
+                            <div class="ml-auto font-weight-bold"> ${{Cart::tax()}}</div>
                         </div>
                         <div class="d-flex">
                             <h4>Shipping Cost</h4>
-                            <div class="ml-auto font-weight-bold"> Free </div>
+                            <div class="ml-auto font-weight-bold"> Free Shipping </div>
                         </div>
                         <hr>
                         <div class="d-flex gr-total">
                             <h5>Grand Total</h5>
-                            <div class="ml-auto h5"> $ 388 </div>
+                            <div class="ml-auto h5"> $ {{Cart::total()}} </div>
                         </div>
                         <hr> </div>
                 </div>

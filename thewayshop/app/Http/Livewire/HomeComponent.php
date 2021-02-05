@@ -3,11 +3,16 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use App\Models\product;
+use Illuminate\Str;
 
 class HomeComponent extends Component
 {
-    public function render()
+   public function render()
     {
-        return view('livewire.home-component')->layout('layouts.base');
+       
+        $product=product::paginate(10);
+
+        return view('livewire.home-component',['product'=>$product])->layout('layouts.base');
     }
 }
